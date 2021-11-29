@@ -1,10 +1,65 @@
-from django.shortcuts import render
-
-# Create your views here.
+from django.shortcuts import render,get_object_or_404,redirect
+from .models import Image,Location,Category
+from django.http import HttpResponse,Http404
+from django.core.exceptions import ObjectDoesNotExist
+import datetime as dt
 from django.http  import HttpResponse
 
 # Create your views here.
+
 def welcome(request):
-    return render(request,'welcome.html')
+  images =Image.objects.all()
+  location = Location.objects.all()
+  return render(request,'welcome.html',{'images':images, 'location':location})
 def about(request):
     return render(request,'about.html')
+  
+
+def search_images(request):
+  if 'image' in request.GET and request.GET["image"]:
+    search_term = request.GET.get("image")
+    searched_images = Image.search_images(search_term)
+    message = f"{search_term}"
+
+    return render(request, 'search_images.html', {"message":message,"images":searched_images})
+
+  else:
+    message = 'You have not searched for any term'
+    return render(request, 'search.html', {"message":message})
+
+def image_details(request,image_id):
+  locations = Location.objects.all()
+
+  try:
+    image = get_object_or_404(Image, pk =image_id)
+  except ObjectDoesNotExist:
+    raise Http404()
+  return render(request, 'image_details.html', {'image':image,"locations":locations})
+
+def kericho_images(request):
+  try:
+    images = Image.objects.filter(location =1)
+  except ObjectDoesNotExist:
+    raise Http404()
+  return render(request, 'image_location.html', {'images':images})
+
+def school_images(request):
+  try:
+    images = Image.objects.filter(location =2)
+  except ObjectDoesNotExist:
+    raise Http404()
+  return render(request, 'image_location.html', {'images':images})
+
+def nairobi_images(request):
+  try:
+    images = Image.objects.filter(location =3)
+  except ObjectDoesNotExist:
+    raise Http404()
+  return render(request, 'image_location.html', {'images':images})
+
+def coast_images(request):
+  try:
+    images = Image.objects.filter(location =4)
+  except ObjectDoesNotExist:
+    raise Http404()
+  return render(request, 'image_location.html', {'images':images})
