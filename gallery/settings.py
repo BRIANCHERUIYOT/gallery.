@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import django_heroku
+import dj_database_url
+from decouple import config,Csv
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,6 +32,13 @@ SECRET_KEY = '5xaco1z^*6-d@irzt6co8+c$($s)7m8889yg_9^kh3^p89g4y6'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+
+cloudinary.config( 
+  cloud_name = "gallery24", 
+  api_key = "522611263718419", 
+  api_secret = "CPt9_ceX6zTxZNEixNTAPBfBSU0" 
+)
 
 
 # Application definition
