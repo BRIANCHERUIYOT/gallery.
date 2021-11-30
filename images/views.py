@@ -20,7 +20,7 @@ def search_images(request):
 
   else:
     message = 'You have not searched for any term'
-    return render(request, 'search.html', {"message":message})
+    return render(request, 'search_images.html', {"message":message})
 
 def image_details(request,image_id):
   locations = Location.objects.all()
